@@ -5,6 +5,10 @@ const mongoose = require('mongoose')                    // 載入 mongoose
 // 引用 express-handlebars
 const exphbs = require('express-handlebars');
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 // 告訴 express 使用 handlebars 當作 template engine 並預設 layout 是 main
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -43,7 +47,7 @@ app.get('/todos', (req, res) => {
 
 // 新增一筆 Todo 頁面
 app.get('/todos/new', (req, res) => {
-  res.send('新增 Todo 頁面')
+  return res.render('new')
 })
 
 // 顯示一筆 Todo 的詳細內容
@@ -53,8 +57,17 @@ app.get('/todos/:id', (req, res) => {
 
 // 新增一筆  Todo
 app.post('/todos', (req, res) => {
-  res.send('建立 Todo')
+  const todo = Todo({
+    name: req.body.name,                       // name 是從 new 頁面 form 傳過來
+  })
+
+  todo.save(err => {
+    if (err) return console.error(err)
+    return res.redirect('/')                        // 新增完成後，將使用者導回首頁
+  })
 })
+
+
 
 // 修改 Todo 頁面
 app.get('/todos/:id/edit', (req, res) => {
