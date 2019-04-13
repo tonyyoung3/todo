@@ -8,7 +8,10 @@
     {{{this.name}}}
     <a href="/todos/{{{this.id}}}">detail</a>
     <a href="/todos/{{{this.id}}}/edit">edit</a>
-    <button type="submit">delete</button>
+    <!-- ./views/index.handlebars -->
+    <form action="/todos/{{{this.id}}}/delete" method="POST" style="display: inline;">
+      <button type="submit">delete</button>
+    </form>
   </li>
   {{/each}}
 </ul>
