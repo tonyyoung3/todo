@@ -5,6 +5,10 @@ const mongoose = require('mongoose')                    // 載入 mongoose
 // 引用 express-handlebars
 const exphbs = require('express-handlebars');
 
+// 引用 method-override
+const methodOverride = require('method-override')    // 設定 method-override
+app.use(methodOverride('_method'))
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -84,20 +88,25 @@ app.get('/todos/:id/edit', (req, res) => {
   })
 })
 
+
 // 修改 Todo
-app.post('/todos/:id', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   Todo.findById(req.params.id, (err, todo) => {
     if (err) return console.error(err)
     todo.name = req.body.name
+    if (req.body.done === 'on') {
+      todo.done = true
+    } else {
+      todo.done = false
+    }
     todo.save(err => {
-      if (err) return console.error(err)
+      if (err) return console.error(err);
       return res.redirect(`/todos/${req.params.id}`)
     })
   })
 })
-
 // 刪除 Todo
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id/delete', (req, res) => {
   Todo.findById(req.params.id, (err, todo) => {
     if (err) return console.error(err)
     todo.remove(err => {
