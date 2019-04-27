@@ -36,8 +36,10 @@ const Todo = require('./models/todo');
 
 // 設定路由
 // 載入路由器
+
 app.use('/', require('./routes/home'))
 app.use('/todos', require('./routes/todo'))
+app.use('/users', require('./routes/user'))
 
 
 

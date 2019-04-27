@@ -5,14 +5,7 @@ const Todo = require('../models/todo')
 // 設定 /todos 路由
 
 // 設定首頁路由
-router.get('/', (req, res) => {
-  Todo.find({})
-    .sort({ name: 'asc' })
-    .exec((err, todos) => {
-      if (err) return console.error(err)
-      return res.render('index', { todos: todos })
-    })
-})
+
 
 // 新增一筆 Todo 頁面
 router.get('/new', (req, res) => {
