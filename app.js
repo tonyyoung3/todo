@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+
 const mongoose = require('mongoose')                    // 載入 mongoose
 
 // 引用 express-handlebars
@@ -32,7 +33,7 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-const Todo = require('./models/todo');
+
 
 // 設定路由
 // 載入路由器
@@ -40,9 +41,6 @@ const Todo = require('./models/todo');
 app.use('/', require('./routes/home'))
 app.use('/todos', require('./routes/todo'))
 app.use('/users', require('./routes/user'))
-
-
-
 
 
 app.listen(3000, () => {
