@@ -52,9 +52,11 @@ router.post('/register', (req, res) => {
 
 // user 的路由
 // 登入頁面
+
 // 登出
 router.get('/logout', (req, res) => {
-  res.send('logout')
+  req.logout()
+  res.redirect('/users/login')
 })
 
 module.exports = router
