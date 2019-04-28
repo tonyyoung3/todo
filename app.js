@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
 
+if (process.env.NODE_ENV !== 'production') {      // 如果不是 production 模式
+  require('dotenv').config()                      // 使用 dotenv 讀取 .env 檔案
+}
+
 const mongoose = require('mongoose')                    // 載入 mongoose
 
 // 引用 express-handlebars
