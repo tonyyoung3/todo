@@ -22,8 +22,12 @@ app.use(passport.session())
 
 require('./config/passport')(passport)
 // 登入後可以取得使用者的資訊方便我們在 view 裡面直接使用
+
+// 建立 local variables
 app.use((req, res, next) => {
   res.locals.user = req.user
+  res.locals.isAuthenticated = req.isAuthenticated()
+  console.log(res.locals.isAuthenticated)      // 辨識使用者是否已經登入的變數，讓 view 可以使用
   next()
 })
 
