@@ -14,7 +14,9 @@ app.use(methodOverride('_method'))
 const session = require('express-session')
 const passport = require('passport')
 app.use(session({
-  secret: 'your secret key',                // secret: 定義一組自己的私鑰（字串)
+  secret: 'your secret key',                 // secret: 定義一組自己的私鑰（字串)
+  resave: 'false',
+  saveUninitialized: 'false',
 }))
 // 使用 Passport 
 app.use(passport.initialize())
@@ -27,7 +29,7 @@ require('./config/passport')(passport)
 app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.isAuthenticated = req.isAuthenticated()
-  console.log(res.locals.isAuthenticated)      // 辨識使用者是否已經登入的變數，讓 view 可以使用
+  // console.log(res.locals.isAuthenticated)      // 辨識使用者是否已經登入的變數，讓 view 可以使用
   next()
 })
 
@@ -40,7 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
-mongoose.connect('mongodb://localhost/todo', { useNewUrlParser: true })   // 設定連線到 mongoDB
+mongoose.connect('mongodb://localhost/todo', { useNewUrlParser: true, useCreateIndex: true })   // 設定連線到 mongoDB
 
 // mongoose 連線後透過 mongoose.connection 拿到 Connection 的物件
 const db = mongoose.connection
