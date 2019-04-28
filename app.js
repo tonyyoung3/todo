@@ -10,6 +10,24 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override')    // 設定 method-override
 app.use(methodOverride('_method'))
 
+// 載入 express-session 與 passport
+const session = require('express-session')
+const passport = require('passport')
+app.use(session({
+  secret: 'your secret key',                // secret: 定義一組自己的私鑰（字串)
+}))
+// 使用 Passport 
+app.use(passport.initialize())
+app.use(passport.session())
+
+require('./config/passport')(passport)
+// 登入後可以取得使用者的資訊方便我們在 view 裡面直接使用
+app.use((req, res, next) => {
+  res.locals.user = req.user
+  next()
+})
+
+//body parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
