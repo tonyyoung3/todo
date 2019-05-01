@@ -1,4 +1,5 @@
 const express = require('express')
+const flash = require('connect-flash')             // 載入 connect-flash   
 const app = express()
 
 if (process.env.NODE_ENV !== 'production') {      // 如果不是 production 模式
@@ -28,14 +29,18 @@ app.use(passport.session())
 
 require('./config/passport')(passport)
 // 登入後可以取得使用者的資訊方便我們在 view 裡面直接使用
-
+app.use(flash())
 // 建立 local variables
 app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   // console.log(res.locals.isAuthenticated)      // 辨識使用者是否已經登入的變數，讓 view 可以使用
   next()
 })
+
+// 使用 Connect flash
 
 //body parser
 const bodyParser = require('body-parser');
