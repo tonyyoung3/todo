@@ -51,7 +51,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
-mongoose.connect('mongodb://localhost/todo', { useNewUrlParser: true, useCreateIndex: true })   // 設定連線到 mongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/todo', {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+})
 
 // mongoose 連線後透過 mongoose.connection 拿到 Connection 的物件
 const db = mongoose.connection
@@ -77,6 +80,7 @@ app.use('/users', require('./routes/user'))
 app.use('/auth', require('./routes/auths'))    // 把 auth route 加進來
 
 
-app.listen(3000, () => {
-  console.log('App is running!')
+// 設定 express port
+app.listen(process.env.PORT || 3000, () => {
+  console.log('App is running')
 })
